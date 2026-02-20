@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Donor Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+
+        <div class="dashboard-card">
+            <h2>Donor Dashboard</h2>
+
+            <div class="form-group">
+                <label>Food Name</label>
+                <input type="text" id="foodName">
+            </div>
+
+            <div class="form-group">
+                <label>Expiry Date</label>
+                <input type="date" id="expiryDate">
+            </div>
+
+            <div class="form-group">
+                <label>Expiry Time</label>
+                <input type="time" id="expiryTime">
+            </div>
+
+            <div class="form-group">
+                <label>Upload Food Image</label>
+                <input type="file" id="foodImg" accept="image/*">
+            </div>
+
+            <button class="dashboard-btn" onclick="addFood()">Add Food</button>
+        </div>
+
+        <div class="dashboard-card">
+            <h2>My Donations</h2>
+            <div id="donorList"></div>
+        </div>
+
+    </div>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CareBite</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="animated-bg"></div>
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+    <div class="blob three"></div>
+
+    <div class="nav">
+        <div class="logo">CareBite</div>
+        <div style="display:flex; gap:15px;">
+            <button class="nav-btn ghost" onclick="location.href='auth.html'">Sign Up</button>
+            <button class="nav-btn solid" onclick="location.href='auth.html'">Log in</button>
+        </div>
+    </div>
+
+
+    <section class="hero">
+        <h1>CareBite</h1>
+        <p>Turning excess food into shared hope.</p>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section">
+        <div class="glass about-grid">
+            <div>
+                <h2>About CareBite</h2>
+                <p>
+                    CareBite connects donors, volunteers, and receivers into a single digital bridge to reduce food waste and fight hunger through real-time coordination.
+                </p>
+            </div>
+            <img src="images/about.jpg">
+        </div>
+    </section>
+
+    <!-- STORIES -->
+    <section class="section">
+        <h2 style="margin-bottom:40px;">Our Stories</h2>
+        <div class="story-grid">
+            <div class="story-card">
+                <img src="images/story1.jpg">
+                <div>
+                    <h3>Community Kitchen Drive</h3>
+                    <p>150 meals delivered to shelters</p>
+                </div>
+            </div>
+            <div class="story-card">
+                <img src="images/story2.jpg">
+                <div>
+                    <h3>College Food Rescue</h3>
+                    <p>Saved 80kg of food waste</p>
+                </div>
+            </div>
+            <div class="story-card">
+                <img src="images/story3.jpg">
+                <div>
+                    <h3>Volunteer Network</h3>
+                    <p>City-wide donation logistics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section">
+        <div class="glass contact-box">
+            <h2 class="contact-title">Connect With CareBite</h2>
+
+            <!-- External Contacts -->
+            <div class="contact-icons">
+                <a href="https://wa.me/919000000000" target="_blank" class="contact-link">WhatsApp</a>
+                <a href="https://instagram.com/carebite" target="_blank" class="contact-link">Instagram</a>
+                <a href="mailto:carebite.connect@gmail.com" class="contact-link">Email</a>
+            </div>
+
+            <!-- Website Message -->
+            <div class="contact-divider"></div>
+
+            <form class="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Type your message here..." required></textarea>
+                <button type="submit" class="send-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+</body>
+
+</html>
