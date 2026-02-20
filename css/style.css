@@ -18,10 +18,12 @@ body {
 .animated-bg {
     position: fixed;
     inset: 0;
-    z-index: -1;
-    background: linear-gradient(120deg, #050b2e, #002a44, #1e3cff, #6a5cff, #003b5f);
-    background-size: 400% 400%;
-    animation: gradientMove 22s ease infinite;
+    z-index: -3;
+    background: linear-gradient(135deg, #0a1f44 0%, /* dark blue (top-left) */
+    #0b2a6f 40%, /* mid blue */
+    #1e40af 70%, /* blue */
+    #2563eb 100%/* lighter blue (bottom-right) */
+    );
 }
 
 @keyframes gradientMove {
