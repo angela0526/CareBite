@@ -10,7 +10,13 @@
 
 <body>
     <div class="dashboard-container">
-
+        <div class="dashboard-header">
+            <p id="welcomeMsg"></p>
+            <button class="dashboard-btn" onclick="logout()"
+                style="background:linear-gradient(135deg,#ff4e4e,#c0392b);">
+                Logout
+            </button>
+        </div>
         <div class="dashboard-card">
             <h2>Donor Dashboard</h2>
 
@@ -18,7 +24,19 @@
                 <label>Food Name</label>
                 <input type="text" id="foodName">
             </div>
-
+            <div class="form-group">
+                <label>Food Type</label>
+                <select id="foodType">
+                <option value="">Select Type</option>
+                <option value="Veg">🥦 Veg</option>
+                <option value="Non-Veg">🍗 Non-Veg</option>
+                <option value="Vegan">🌱 Vegan</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Quantity</label>
+                    <input type="text" id="quantity" placeholder="e.g. 5kg, 20 plates">
+            </div>
             <div class="form-group">
                 <label>Expiry Date</label>
                 <input type="date" id="expiryDate">

@@ -11,9 +11,21 @@
 
 <body>
     <div class="dashboard-container">
+        <div class="dashboard-header">
+            <p id="welcomeMsg"></p>
+            <button class="dashboard-btn" onclick="logout()" 
+            style="background:linear-gradient(135deg,#ff4e4e,#c0392b);">
+            Logout</button>
+        </div>
+        
         <div class="dashboard-card">
-            <h2>Receiver Dashboard</h2>
+            <h2>Available Donations</h2>
             <div id="receiverList"></div>
+        </div>
+
+        <div class="dashboard-card">
+            <h2>My Claims</h2>
+            <div id="myClaimsList"></div>
         </div>
     </div>
 

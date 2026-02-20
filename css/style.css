@@ -538,3 +538,20 @@ button {
     background: rgba(255, 255, 255, 0.3);
     transform: translateX(-3px);
 }
+/* ===== DASHBOARD HEADER ===== */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+}
+
+.dashboard-header p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #7dd3fc;
+}
