@@ -365,6 +365,7 @@ function claimFood(id) {
         if (d.id === id) {
             d.status = 'Claimed';
             d.claimedBy = user.name;
+            d.claimedByEmail = user.email;
         }
         return d;
     });
@@ -389,10 +390,11 @@ function loadVolunteerList() {
     const needsPickup = donations.filter(d => d.status === 'Claimed');
 
     // Show volunteer's completed deliveries
+    // NEW
     const myDeliveries = donations.filter(d => 
-        d.volunteerEmail === user.email && d.status === 'Delivered'
+        d.volunteerEmail === user.email && 
+        (d.status === 'Pickup Assigned' || d.status === 'Delivered')
     );
-
     renderVolunteerList(needsPickup, user);
     renderMyDeliveries(myDeliveries);
 }
