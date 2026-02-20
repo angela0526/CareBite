@@ -131,11 +131,13 @@ function addFood() {
     }
 
     const foodName = document.getElementById('foodName').value.trim();
+    const foodType = document.getElementById('foodType').value;      // ← ADD
+    const quantity = document.getElementById('quantity').value.trim(); // ← ADD
     const expiryDate = document.getElementById('expiryDate').value;
     const expiryTime = document.getElementById('expiryTime').value;
     const foodImgFile = document.getElementById('foodImg').files[0];
 
-    if (!foodName || !expiryDate || !expiryTime) {
+    if (!foodName || !foodType || !quantity || !expiryDate || !expiryTime) {
         alert('⚠️ Please fill all fields!');
         return;
     }
@@ -143,15 +145,15 @@ function addFood() {
     if (foodImgFile) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            saveFood(user, foodName, expiryDate, expiryTime, e.target.result);
+            saveFood(user, foodName, foodType, quantity, expiryDate, expiryTime, e.target.result); // ← UPDATED
         };
         reader.readAsDataURL(foodImgFile);
     } else {
-        saveFood(user, foodName, expiryDate, expiryTime, null);
+        saveFood(user, foodName, foodType, quantity, expiryDate, expiryTime, null); // ← UPDATED
     }
 }
 
-function saveFood(user, foodName, expiryDate, expiryTime, imgData) {
+function saveFood(user, foodName, foodType, quantity, expiryDate, expiryTime, imgData) {
     const donations = JSON.parse(localStorage.getItem('cb_donations') || '[]');
 
     donations.push({
@@ -242,6 +244,13 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
 // ===========================
 // RECEIVER FUNCTIONS
 // ===========================
+function isExpiringSoon(date, time) {
+    const expiry = new Date(date + 'T' + time);
+    const now = new Date();
+    const diff = (expiry - now) / (1000 * 60 * 60);
+    return diff <= 2 && diff > 0;
+}
+
 function loadReceiverList() {
     const user = JSON.parse(localStorage.getItem('cb_currentUser'));
     if (!user) return;
@@ -503,7 +512,12 @@ function markDelivered(id) {
 // AUTO LOAD ON PAGE OPEN
 // ===========================
 window.onload = function () {
-
+    // Set min date to today
+    const dateInput = document.getElementById('expiryDate');
+    if (dateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+    }
     // Protect donor page
     if (document.getElementById('donorList')) {
         const user = JSON.parse(localStorage.getItem('cb_currentUser'));

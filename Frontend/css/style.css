@@ -669,3 +669,16 @@ button {
     cursor: pointer;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
 }
+/* Fix date and time inputs */
+.form-group input[type="date"],
+.form-group input[type="time"] {
+    color: white;
+    cursor: pointer;
+    pointer-events: auto !important;
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator,
+.form-group input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}

@@ -3,21 +3,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Receiver Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css">
+    <title>Receiver Dashboard — CareBite</title>
     <link rel="stylesheet" href="css/style.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="dashboard-container">
         <div class="dashboard-header">
             <p id="welcomeMsg"></p>
-            <button class="dashboard-btn" onclick="logout()" 
-            style="background:linear-gradient(135deg,#ff4e4e,#c0392b);">
-            Logout</button>
+            <button class="dashboard-btn" onclick="logout()"
+                style="background:linear-gradient(135deg,#ff4e4e,#c0392b);">
+                Logout
+            </button>
         </div>
-        
+
         <div class="dashboard-card">
             <h2>Available Donations</h2>
             <div id="receiverList"></div>
@@ -30,8 +30,10 @@
     </div>
 
     <script src="js/app.js"></script>
-
-
+    <!-- ← ADD THIS -->
+    <script>
+        loadReceiverList();
+    </script>
 </body>
 
 </html>
