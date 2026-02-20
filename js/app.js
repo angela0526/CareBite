@@ -1,273 +1,287 @@
-let foods = [];
-let userLocation = null;
+// ===========================
+// CAREBITE - app.js
+// ===========================
 
-// ---------- AUTH ----------
-function signup() {
-    const role = document.getElementById("role").value;
-    localStorage.setItem("role", role);
 
-    if (role === "donor") location.href = "donor.html";
-    if (role === "receiver") location.href = "receiver.html";
-    if (role === "volunteer") location.href = "volunteer.html";
+// ===========================
+// REGISTER
+// ===========================
+function showRoleFields() {
+    const role = document.getElementById('regRole').value;
+    document.getElementById('donorFields').style.display = role === 'donor' ? 'block' : 'none';
+    document.getElementById('receiverFields').style.display = role === 'receiver' ? 'block' : 'none';
 }
 
-// ---------- STORAGE ----------
-function saveFoods() {
-    localStorage.setItem("foods", JSON.stringify(foods));
-}
+function register() {
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const password = document.getElementById('regPassword').value;
+    const confirm = document.getElementById('regConfirm').value;
+    const role = document.getElementById('regRole').value;
 
-function loadFoods() {
-    const data = localStorage.getItem("foods");
-    if (data) foods = JSON.parse(data);
-}
-
-// ---------- IMAGE ----------
-function getBase64(file, callback) {
-    const reader = new FileReader();
-    reader.onload = () => callback(reader.result);
-    reader.readAsDataURL(file);
-}
-
-// ---------- DONOR ----------
-function addFood() {
-    const name = document.getElementById("foodName").value;
-    const date = document.getElementById("expiryDate").value;
-    const time = document.getElementById("expiryTime").value;
-    const pickup = document.getElementById("pickup").value;
-    const img = document.getElementById("foodPic").files[0];
-
-    if (!name || !date || !time || !pickup || !img) {
-        alert("Fill all fields");
+    if (!name || !email || !phone || !password || !role) {
+        document.getElementById('registerError').innerText = '⚠️ Please fill all required fields!';
+        return;
+    }
+    if (password !== confirm) {
+        document.getElementById('registerError').innerText = '❌ Passwords do not match!';
         return;
     }
 
-    const expiry = `${date}T${time}`;
+    const users = JSON.parse(localStorage.getItem('cb_users') || '[]');
+    if (users.find(u => u.email === email)) {
+        document.getElementById('registerError').innerText = '❌ Email already registered!';
+        return;
+    }
 
-    getBase64(img, (imgData) => {
-        const food = {
-            id: Date.now(),
-            name,
-            expiry,
-            pickup,
-            img: imgData,
-            status: "Available"
-        };
+    const newUser = { name, email, phone, password, role };
 
-        foods.push(food);
-        saveFoods();
-        renderDonor();
+    if (role === 'donor') {
+        newUser.donorType = document.getElementById('donorType').value;
+        newUser.orgName = document.getElementById('orgName').value;
+    }
+    if (role === 'receiver') {
+        newUser.ngoName = document.getElementById('ngoName').value;
+        newUser.ngoReg = document.getElementById('ngoReg').value;
+        newUser.peopleServed = document.getElementById('peopleServed').value;
+    }
 
-        // clear form
-        foodName.value = "";
-        expiryDate.value = "";
-        expiryTime.value = "";
-        pickup.value = "";
-        foodPic.value = "";
-        document.getElementById("preview").src = "";
-    });
+    users.push(newUser);
+    localStorage.setItem('cb_users', JSON.stringify(users));
+    localStorage.setItem('cb_currentUser', JSON.stringify(newUser));
+
+    if (role === 'donor') window.location.href = 'donor.html';
+    else if (role === 'receiver') window.location.href = 'receiver.html';
 }
 
-function renderDonor() {
-    const list = document.getElementById("foodList");
-    if (!list) return;
 
-    list.innerHTML = "";
+// ===========================
+// LOGIN
+// ===========================
+function login() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const role = document.getElementById('loginRole').value;
 
-    foods.forEach(f => {
-        const div = document.createElement("div");
-        div.className = "food-card";
-        div.innerHTML = `
-            <img src="${f.img}">
-            <h3>${f.name}</h3>
-            <p>Status: ${f.status}</p>
-            <p>Pickup: ${f.pickup}</p>
-        `;
-        list.appendChild(div);
-    });
+    if (!email || !password || !role) {
+        document.getElementById('loginError').innerText = '⚠️ Please fill all fields!';
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('cb_users') || '[]');
+    const user = users.find(u =>
+        u.email === email &&
+        u.password === password &&
+        u.role === role
+    );
+
+    if (!user) {
+        document.getElementById('loginError').innerText = '❌ Invalid email, password or role!';
+        return;
+    }
+
+    localStorage.setItem('cb_currentUser', JSON.stringify(user));
+
+    if (role === 'donor') window.location.href = 'donor.html';
+    else if (role === 'receiver') window.location.href = 'receiver.html';
 }
 
-// ---------- RECEIVER ----------
-function renderReceiver() {
-    const list = document.getElementById("receiverFoodList");
-    if (!list) return;
 
-    list.innerHTML = "";
-
-    foods.forEach((f, i) => {
-        if (f.status === "Available") {
-            const div = document.createElement("div");
-            div.className = "food-card";
-            div.innerHTML = `
-                <img src="${f.img}">
-                <h3>${f.name}</h3>
-                <p>Pickup: ${f.pickup}</p>
-                <button onclick="takeOrder(${i})">Take Order</button>
-            `;
-            list.appendChild(div);
-        }
-    });
+// ===========================
+// LOGOUT
+// ===========================
+function logout() {
+    localStorage.removeItem('cb_currentUser');
+    window.location.href = 'index.html';
 }
 
-function takeOrder(i) {
-    foods[i].status = "Accepted";
-    saveFoods();
-    alert("Thank you for reducing food waste 💙");
-    renderReceiver();
-    renderDonor();
-    renderVolunteer();
-}
 
-// ---------- VOLUNTEER ----------
-function renderVolunteer() {
-    const list = document.getElementById("volunteerList");
-    if (!list) return;
+// ===========================
+// DONOR FUNCTIONS
+// ===========================
+function addFood() {
+    const user = JSON.parse(localStorage.getItem('cb_currentUser'));
+    if (!user || user.role !== 'donor') {
+        alert('Please login as a donor first!');
+        window.location.href = 'login.html';
+        return;
+    }
 
-    list.innerHTML = "";
+    const foodName = document.getElementById('foodName').value.trim();
+    const expiryDate = document.getElementById('expiryDate').value;
+    const expiryTime = document.getElementById('expiryTime').value;
+    const foodImgFile = document.getElementById('foodImg').files[0];
 
-    foods.forEach((f, i) => {
-        if (f.status === "Accepted") {
-            const div = document.createElement("div");
-            div.className = "food-card";
-            div.innerHTML = `
-                <img src="${f.img}">
-                <h3>${f.name}</h3>
-                <p>Pickup: ${f.pickup}</p>
-                <button onclick="deliver(${i})">Start Delivery</button>
-            `;
-            list.appendChild(div);
-        }
-    });
-}
+    if (!foodName || !expiryDate || !expiryTime) {
+        alert('⚠️ Please fill all fields!');
+        return;
+    }
 
-function deliver(i) {
-    foods[i].status = "Delivered";
-    saveFoods();
-    renderVolunteer();
-    renderDonor();
-}
-
-// ---------- IMAGE PREVIEW ----------
-function previewImage() {
-    const file = document.getElementById("foodPic").files[0];
-    const preview = document.getElementById("preview");
-
-    if (file) {
+    if (foodImgFile) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.style.display = "block";
-        }
-        reader.readAsDataURL(file);
+            saveFood(user, foodName, expiryDate, expiryTime, e.target.result);
+        };
+        reader.readAsDataURL(foodImgFile);
+    } else {
+        saveFood(user, foodName, expiryDate, expiryTime, null);
     }
 }
 
+function saveFood(user, foodName, expiryDate, expiryTime, imgData) {
+    const donations = JSON.parse(localStorage.getItem('cb_donations') || '[]');
 
-// ---------- LOAD ----------
-window.onload = () => {
-        loadFoods();
-        renderDonor();
-        renderReceiver();
-        renderVolunteer();
-    }
-    /* ===== existing JS ends here ===== */
+    donations.push({
+        id: Date.now(),
+        donorName: user.name,
+        donorEmail: user.email,
+        foodName,
+        expiryDate,
+        expiryTime,
+        image: imgData,
+        status: 'Available',
+        claimedBy: null
+    });
 
+    localStorage.setItem('cb_donations', JSON.stringify(donations));
+    alert('✅ Food donation added successfully!');
 
+    // Clear form
+    document.getElementById('foodName').value = '';
+    document.getElementById('expiryDate').value = '';
+    document.getElementById('expiryTime').value = '';
+    document.getElementById('foodImg').value = '';
 
-/* ============================= */
-/* FOOD BRIDGE SYSTEM LOGIC */
-/* ============================= */
+    loadDonorList();
+}
 
-let foodData = JSON.parse(localStorage.getItem("foodData")) || [];
+function loadDonorList() {
+    const user = JSON.parse(localStorage.getItem('cb_currentUser'));
+    if (!user) return;
 
-function addFood() {
-    const name = document.getElementById("foodName").value;
-    const date = document.getElementById("expiryDate").value;
-    const time = document.getElementById("expiryTime").value;
-    const imgInput = document.getElementById("foodImg");
+    const donations = JSON.parse(localStorage.getItem('cb_donations') || '[]');
+    const myDonations = donations.filter(d => d.donorEmail === user.email);
+    const list = document.getElementById('donorList');
+    if (!list) return;
 
-    if (!name || !date || !time || !imgInput.files[0]) {
-        alert("Fill all fields");
+    // Show welcome message
+    const welcome = document.getElementById('welcomeMsg');
+    if (welcome) welcome.innerText = `Welcome, ${user.name}! 👋`;
+
+    if (myDonations.length === 0) {
+        list.innerHTML = '<p style="color:#7dd3fc; text-align:center;">No donations yet. Add your first one above!</p>';
         return;
     }
 
-    const reader = new FileReader();
-    reader.onload = function() {
-        foodData.push({
-            name,
-            date,
-            time,
-            img: reader.result,
-            status: "Available"
-        });
-
-        localStorage.setItem("foodData", JSON.stringify(foodData));
-        alert("Food Added Successfully");
-        renderFoods();
-    };
-
-    reader.readAsDataURL(imgInput.files[0]);
+    list.innerHTML = myDonations.map(d => `
+        <div class="food-card">
+            ${d.image
+                ? `<img src="${d.image}" alt="food">`
+                : `<div style="width:90px;height:90px;background:#0f172a;border-radius:10px;border:2px dashed #00c6ff;display:flex;align-items:center;justify-content:center;font-size:30px;">🍱</div>`
+            }
+            <div style="flex:1;">
+                <h3 style="color:white; margin-bottom:6px;">${d.foodName}</h3>
+                <p class="status-text">📅 Expiry: ${d.expiryDate} at ${d.expiryTime}</p>
+                <p class="status-text">Status: <strong style="color:${d.status === 'Available' ? '#4ade80' : '#facc15'}">${d.status}</strong></p>
+                ${d.claimedBy ? `<p class="status-text">🤝 Claimed by: ${d.claimedBy}</p>` : ''}
+            </div>
+            <button class="dashboard-btn" onclick="deleteFood(${d.id})" style="background:linear-gradient(135deg,#ff4e4e,#c0392b);">🗑️</button>
+        </div>
+    `).join('');
 }
 
-function renderFoods() {
-    const donorBox = document.getElementById("donorList");
-    const receiverBox = document.getElementById("receiverList");
-    const volunteerBox = document.getElementById("volunteerList");
+function deleteFood(id) {
+    if (!confirm('Are you sure you want to delete this donation?')) return;
+    let donations = JSON.parse(localStorage.getItem('cb_donations') || '[]');
+    donations = donations.filter(d => d.id !== id);
+    localStorage.setItem('cb_donations', JSON.stringify(donations));
+    loadDonorList();
+}
 
-    if (donorBox) donorBox.innerHTML = "";
-    if (receiverBox) receiverBox.innerHTML = "";
-    if (volunteerBox) volunteerBox.innerHTML = "";
 
-    foodData.forEach((food, i) => {
-        if (donorBox) {
-            donorBox.innerHTML += `
-            <div class="food-card">
-                <img src="${food.img}">
-                <div>
-                    <b>${food.name}</b><br>
-                    Exp: ${food.date} ${food.time}<br>
-                    <span class="status-text">Status: ${food.status}</span>
-                </div>
-            </div>`;
+// ===========================
+// RECEIVER FUNCTIONS
+// ===========================
+function loadReceiverList() {
+    const user = JSON.parse(localStorage.getItem('cb_currentUser'));
+    if (!user) return;
+
+    const donations = JSON.parse(localStorage.getItem('cb_donations') || '[]');
+    const available = donations.filter(d => d.status === 'Available');
+    const list = document.getElementById('receiverList');
+    if (!list) return;
+
+    // Show welcome message
+    const welcome = document.getElementById('welcomeMsg');
+    if (welcome) welcome.innerText = `Welcome, ${user.name}! 👋`;
+
+    if (available.length === 0) {
+        list.innerHTML = '<p style="color:#7dd3fc; text-align:center;">No food available right now. Check back soon!</p>';
+        return;
+    }
+
+    list.innerHTML = available.map(d => `
+        <div class="food-card">
+            ${d.image
+                ? `<img src="${d.image}" alt="food">`
+                : `<div style="width:90px;height:90px;background:#0f172a;border-radius:10px;border:2px dashed #00c6ff;display:flex;align-items:center;justify-content:center;font-size:30px;">🍱</div>`
+            }
+            <div style="flex:1;">
+                <h3 style="color:white; margin-bottom:6px;">${d.foodName}</h3>
+                <p class="status-text">👤 Donor: ${d.donorName}</p>
+                <p class="status-text">📅 Expiry: ${d.expiryDate} at ${d.expiryTime}</p>
+                <p class="status-text">Status: <strong style="color:#4ade80">${d.status}</strong></p>
+            </div>
+            <button class="dashboard-btn" onclick="claimFood(${d.id})">🤝 Claim</button>
+        </div>
+    `).join('');
+}
+
+function claimFood(id) {
+    const user = JSON.parse(localStorage.getItem('cb_currentUser'));
+    if (!user || user.role !== 'receiver') {
+        alert('Please login as a receiver!');
+        return;
+    }
+
+    let donations = JSON.parse(localStorage.getItem('cb_donations') || '[]');
+    donations = donations.map(d => {
+        if (d.id === id) {
+            d.status = 'Claimed';
+            d.claimedBy = user.name;
         }
-
-        if (receiverBox && food.status === "Available") {
-            receiverBox.innerHTML += `
-            <div class="food-card">
-                <img src="${food.img}">
-                <div>
-                    <b>${food.name}</b><br>
-                    Exp: ${food.date} ${food.time}<br><br>
-                    <button class="dashboard-btn" onclick="requestFood(${i})">Take Order</button>
-                </div>
-            </div>`;
-        }
-
-        if (volunteerBox && food.status === "Requested") {
-            volunteerBox.innerHTML += `
-            <div class="food-card">
-                <img src="${food.img}">
-                <div>
-                    <b>${food.name}</b><br>
-                    <span class="status-text">Receiver waiting</span><br><br>
-                    <button class="dashboard-btn" onclick="pickupFood(${i})">Pickup</button>
-                </div>
-            </div>`;
-        }
+        return d;
     });
+
+    localStorage.setItem('cb_donations', JSON.stringify(donations));
+    alert('✅ Food claimed successfully!');
+    loadReceiverList();
 }
 
-function requestFood(i) {
-    foodData[i].status = "Requested";
-    localStorage.setItem("foodData", JSON.stringify(foodData));
-    alert("Request sent to Donor & Volunteer");
-    renderFoods();
-}
 
-function pickupFood(i) {
-    foodData[i].status = "Picked by Volunteer";
-    localStorage.setItem("foodData", JSON.stringify(foodData));
-    alert("Pickup Confirmed");
-    renderFoods();
-}
+// ===========================
+// AUTO LOAD ON PAGE OPEN
+// ===========================
+window.onload = function () {
 
-window.onload = renderFoods;
+    // Protect donor page
+    if (document.getElementById('donorList')) {
+        const user = JSON.parse(localStorage.getItem('cb_currentUser'));
+        if (!user || user.role !== 'donor') {
+            window.location.href = 'login.html';
+            return;
+        }
+        loadDonorList();
+    }
+
+    // Protect receiver page
+    if (document.getElementById('receiverList')) {
+        const user = JSON.parse(localStorage.getItem('cb_currentUser'));
+        if (!user || user.role !== 'receiver') {
+            window.location.href = 'login.html';
+            return;
+        }
+        loadReceiverList();
+    }
+};
