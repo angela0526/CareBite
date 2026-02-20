@@ -3,32 +3,39 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Volunteer Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css">
+    <title>Volunteer Dashboard — CareBite</title>
     <link rel="stylesheet" href="css/style.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div class="dashboard">
+    <div class="dashboard-container">
 
-        <h1>Volunteer Dashboard</h1>
-
-        <div class="card">
-            <h2>Volunteer Registration</h2>
-            <input type="text" id="volName" placeholder="Full Name">
-            <input type="text" id="volPhone" placeholder="Phone Number">
-            <button onclick="registerVolunteer()">Register</button>
+        <!-- Header -->
+        <div class="dashboard-header">
+            <p id="welcomeMsg"></p>
+            <button class="dashboard-btn" onclick="logout()"
+                style="background:linear-gradient(135deg,#ff4e4e,#c0392b);">
+                Logout
+            </button>
         </div>
 
-        <div class="card">
-            <h2>Delivery Tasks</h2>
-            <div id="volunteerTasks" class="grid"></div>
+        <!-- Available Pickups -->
+        <div class="dashboard-card">
+            <h2>🚴 Available Pickups</h2>
+            <div id="volunteerList"></div>
         </div>
 
-    </div>
+        <!-- My Deliveries -->
+        <div class="dashboard-card">
+            <h2>✅ My Deliveries</h2>
+            <div id="myDeliveriesList"></div>
+        </div>
 
     <script src="js/app.js"></script>
+    <script>
+        loadVolunteerList();
+    </script>
 </body>
 
 </html>

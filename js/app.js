@@ -106,6 +106,7 @@ function login() {
 
     if (role === 'donor') window.location.href = 'donor.html';
     else if (role === 'receiver') window.location.href = 'receiver.html';
+    else if (role === 'volunteer') window.location.href = 'volunteer.html'; 
 }
 
 
@@ -363,7 +364,140 @@ function claimFood(id) {
     alert('✅ Food claimed successfully!');
     loadReceiverList();
 }
+// ===========================
+// VOLUNTEER FUNCTIONS
+// ===========================
+function loadVolunteerList() {
+    const user = JSON.parse(localStorage.getItem('cb_currentUser'));
+    if (!user) return;
+    console.log('User:', user);
+    console.log('Welcome element:', document.getElementById('welcomeMsg'));
+   const welcome = document.getElementById('welcomeMsg');
+    if (welcome) welcome.innerText = 'Welcome, ' + user.name + '! 👋';
+    const donations = JSON.parse(localStorage.getItem('cb_donations') || '[]');
 
+    // Show claimed donations that need pickup
+    const needsPickup = donations.filter(d => d.status === 'Claimed');
+
+    // Show volunteer's completed deliveries
+    const myDeliveries = donations.filter(d => 
+        d.volunteerEmail === user.email && d.status === 'Delivered'
+    );
+
+    renderVolunteerList(needsPickup, user);
+    renderMyDeliveries(myDeliveries);
+}
+
+function renderVolunteerList(needsPickup, user) {
+    const list = document.getElementById('volunteerList');
+    if (!list) return;
+
+    if (needsPickup.length === 0) {
+        list.innerHTML = '<p style="color:#7dd3fc; text-align:center;">No pickups needed right now!</p>';
+        return;
+    }
+
+    list.innerHTML = needsPickup.map(d => `
+        <div class="food-card">
+            ${d.image
+                ? `<img src="${d.image}" alt="food">`
+                : `<div style="width:90px;height:90px;background:#0f172a;border-radius:10px;border:2px dashed #00c6ff;display:flex;align-items:center;justify-content:center;font-size:30px;">🍱</div>`
+            }
+            <div style="flex:1;">
+                <h3 style="color:white; margin-bottom:6px;">${d.foodName}</h3>
+                <p class="status-text">🥗 Type: ${d.foodType || 'N/A'}</p>
+                <p class="status-text">📦 Quantity: ${d.quantity || 'N/A'}</p>
+                <p class="status-text">👤 Donor: ${d.donorName}</p>
+                <p class="status-text">🤝 Claimed by: ${d.claimedBy}</p>
+                <p class="status-text">📅 Expiry: ${d.expiryDate} at ${d.expiryTime}</p>
+                <p class="status-text">Status: <strong style="color:#facc15">${d.status}</strong></p>
+                ${isExpiringSoon(d.expiryDate, d.expiryTime)
+                    ? `<p style="color:#f87171; font-weight:bold;">⚠️ Expiring Soon!</p>`
+                    : ''
+                }
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                ${d.volunteerEmail === user.email
+                    ? `<button class="dashboard-btn" onclick="markDelivered(${d.id})" 
+                        style="background:linear-gradient(135deg,#22c55e,#16a34a);">
+                        ✅ Delivered
+                       </button>`
+                    : `<button class="dashboard-btn" onclick="acceptPickup(${d.id})">
+                        🚴 Accept
+                       </button>`
+                }
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderMyDeliveries(myDeliveries) {
+    const list = document.getElementById('myDeliveriesList');
+    if (!list) return;
+
+    if (myDeliveries.length === 0) {
+        list.innerHTML = '<p style="color:#7dd3fc; text-align:center;">No deliveries yet!</p>';
+        return;
+    }
+
+    list.innerHTML = `
+        <p style="color:#4ade80; margin-bottom:15px; font-weight:600;">
+            🏆 Total Deliveries: ${myDeliveries.length}
+        </p>
+        ${myDeliveries.map(d => `
+            <div class="food-card">
+                ${d.image
+                    ? `<img src="${d.image}" alt="food">`
+                    : `<div style="width:90px;height:90px;background:#0f172a;border-radius:10px;border:2px dashed #00c6ff;display:flex;align-items:center;justify-content:center;font-size:30px;">🍱</div>`
+                }
+                <div style="flex:1;">
+                    <h3 style="color:white; margin-bottom:6px;">${d.foodName}</h3>
+                    <p class="status-text">👤 Donor: ${d.donorName}</p>
+                    <p class="status-text">🤝 Receiver: ${d.claimedBy}</p>
+                    <p class="status-text">Status: <strong style="color:#4ade80">✅ Delivered</strong></p>
+                </div>
+            </div>
+        `).join('')}
+    `;
+}
+
+function acceptPickup(id) {
+    const user = JSON.parse(localStorage.getItem('cb_currentUser'));
+    if (!user || user.role !== 'volunteer') {
+        alert('Please login as a volunteer!');
+        return;
+    }
+
+    let donations = JSON.parse(localStorage.getItem('cb_donations') || '[]');
+    donations = donations.map(d => {
+        if (d.id === id) {
+            d.status = 'Pickup Assigned';
+            d.volunteerName = user.name;
+            d.volunteerEmail = user.email;
+        }
+        return d;
+    });
+
+    localStorage.setItem('cb_donations', JSON.stringify(donations));
+    alert('✅ Pickup accepted! Please collect the food from the donor.');
+    loadVolunteerList();
+}
+
+function markDelivered(id) {
+    if (!confirm('Confirm delivery completed?')) return;
+
+    let donations = JSON.parse(localStorage.getItem('cb_donations') || '[]');
+    donations = donations.map(d => {
+        if (d.id === id) {
+            d.status = 'Delivered';
+        }
+        return d;
+    });
+
+    localStorage.setItem('cb_donations', JSON.stringify(donations));
+    alert('🎉 Delivery marked as complete! Thank you for helping!');
+    loadVolunteerList();
+}
 
 // ===========================
 // AUTO LOAD ON PAGE OPEN
@@ -388,5 +522,12 @@ window.onload = function () {
             return;
         }
         loadReceiverList();
+    }
+    if (document.getElementById('volunteerList')) {
+        if (!user || user.role !== 'volunteer') {
+            window.location.href = 'login.html';
+            return;
+        }
+        loadVolunteerList();
     }
 };
