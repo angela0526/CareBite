@@ -123,9 +123,9 @@ body {
 }
 
 .nav-btn.ghost {
-    background: rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
     color: white;
-    backdrop-filter: blur(10px);
+    border: none;
 }
 
 .nav-btn.solid {
@@ -538,14 +538,17 @@ button {
     background: rgba(255, 255, 255, 0.3);
     transform: translateX(-3px);
 }
+
+
 /* ===== DASHBOARD HEADER ===== */
+
 .dashboard-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
     padding: 15px 20px;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 14px;
     backdrop-filter: blur(10px);
 }
@@ -554,4 +557,112 @@ button {
     font-size: 18px;
     font-weight: 600;
     color: #7dd3fc;
+}
+
+
+/* ===== CONNECT WITH CAREBITE CENTER ALIGN FIX ===== */
+
+.contact-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* 3D Contact Box */
+
+.contact-box {
+    width: 340px;
+    padding: 18px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* Title */
+
+.contact-box h3 {
+    text-align: center;
+    margin-bottom: 4px;
+    color: #fff;
+}
+
+
+/* Social row */
+
+.social-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+
+/* Social buttons */
+
+.social-btn {
+    flex: 1;
+    text-align: center;
+    padding: 7px 0;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+}
+
+
+/* Colors */
+
+.whatsapp {
+    background: #25D366;
+}
+
+.mail {
+    background: #EA4335;
+}
+
+.insta {
+    background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+}
+
+
+/* Inputs */
+
+.contact-box input,
+.contact-box textarea {
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 9px 10px;
+    color: white;
+    outline: none;
+    font-size: 14px;
+}
+
+
+/* Textarea */
+
+.contact-box textarea {
+    resize: none;
+    height: 80px;
+}
+
+
+/* Button */
+
+.contact-box button {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
 }
