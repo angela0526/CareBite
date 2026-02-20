@@ -505,3 +505,28 @@ button {
         transform: translateY(0)
     }
 }
+/* ===== BACK ARROW ===== */
+.back-arrow {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+    background: rgba(255,255,255,0.15);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    z-index: 999;
+    border: 2px solid rgba(255,255,255,0.5);
+}
+
+.back-arrow:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateX(-3px);
+}
