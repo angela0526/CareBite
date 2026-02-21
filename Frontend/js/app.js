@@ -11,6 +11,7 @@ function showRoleFields() {
     document.getElementById('donorFields').style.display = role === 'donor' ? 'block' : 'none';
     document.getElementById('receiverFields').style.display = role === 'receiver' ? 'block' : 'none';
 }
+
 function getLocationAndRegister(userData) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -39,6 +40,7 @@ function completeRegistration(newUser) {
     else if (newUser.role === 'receiver') window.location.href = 'receiver.html';
     else if (newUser.role === 'volunteer') window.location.href = 'volunteer.html';
 }
+
 function register() {
     const name = document.getElementById('regName').value.trim();
     const email = document.getElementById('regEmail').value.trim();
@@ -106,7 +108,7 @@ function login() {
 
     if (role === 'donor') window.location.href = 'donor.html';
     else if (role === 'receiver') window.location.href = 'receiver.html';
-    else if (role === 'volunteer') window.location.href = 'volunteer.html'; 
+    else if (role === 'volunteer') window.location.href = 'volunteer.html';
 }
 
 
@@ -131,13 +133,14 @@ function addFood() {
     }
 
     const foodName = document.getElementById('foodName').value.trim();
-    const foodType = document.getElementById('foodType').value;      // ← ADD
+    const foodType = document.getElementById('foodType').value; // ← ADD
     const quantity = document.getElementById('quantity').value.trim(); // ← ADD
     const expiryDate = document.getElementById('expiryDate').value;
     const expiryTime = document.getElementById('expiryTime').value;
+    const foodAddress = document.getElementById('foodAddress').value.trim();
     const foodImgFile = document.getElementById('foodImg').files[0];
 
-    if (!foodName || !foodType || !quantity || !expiryDate || !expiryTime) {
+    if (!foodName || !foodType || !quantity || !expiryDate || !expiryTime || !foodAddress) {
         alert('⚠️ Please fill all fields!');
         return;
     }
@@ -145,32 +148,28 @@ function addFood() {
     if (foodImgFile) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            saveFood(user, foodName, foodType, quantity, expiryDate, expiryTime, e.target.result); // ← UPDATED
+            saveFood(user, foodName, foodAddress, expiryDate, expiryTime, e.target.result);
         };
         reader.readAsDataURL(foodImgFile);
     } else {
-        saveFood(user, foodName, foodType, quantity, expiryDate, expiryTime, null); // ← UPDATED
+        saveFood(user, foodName, foodAddress, expiryDate, expiryTime, null);
     }
 }
 
-function saveFood(user, foodName, foodType, quantity, expiryDate, expiryTime, imgData) {
+function saveFood(user, foodName, foodAddress, expiryDate, expiryTime, imgData) {
     const donations = JSON.parse(localStorage.getItem('cb_donations') || '[]');
 
     donations.push({
         id: Date.now(),
         donorName: user.name,
         donorEmail: user.email,
-        donorLat: user.lat || null,    
-        donorLng: user.lng || null,   
         foodName,
-        foodType,
-        quantity,
+        foodAddress,
         expiryDate,
         expiryTime,
         image: imgData,
         status: 'Available',
-        claimedBy: null,
-        claimedByEmail: null
+        claimedBy: null
     });
 
     localStorage.setItem('cb_donations', JSON.stringify(donations));
@@ -346,6 +345,7 @@ function renderMyClaims(myClaims) {
                 <h3 style="color:white; margin-bottom:6px;">${d.foodName}</h3>
                 <p class="status-text">👤 Donor: ${d.donorName}</p>
                 <p class="status-text">📅 Expiry: ${d.expiryDate} at ${d.expiryTime}</p>
+                <p class="status-text">📍 Pickup Address: ${d.foodAddress}</p>
                 <p class="status-text">Status: <strong style="color:#facc15">${d.status}</strong></p>
             </div>
         </div>
@@ -421,6 +421,7 @@ function renderVolunteerList(needsPickup, user) {
                 <p class="status-text">👤 Donor: ${d.donorName}</p>
                 <p class="status-text">🤝 Claimed by: ${d.claimedBy}</p>
                 <p class="status-text">📅 Expiry: ${d.expiryDate} at ${d.expiryTime}</p>
+                <p class="status-text">📍 Pickup Address: ${d.foodAddress}</p>
                 <p class="status-text">Status: <strong style="color:#facc15">${d.status}</strong></p>
                 ${isExpiringSoon(d.expiryDate, d.expiryTime)
                     ? `<p style="color:#f87171; font-weight:bold;">⚠️ Expiring Soon!</p>`
@@ -465,6 +466,7 @@ function renderMyDeliveries(myDeliveries) {
                     <h3 style="color:white; margin-bottom:6px;">${d.foodName}</h3>
                     <p class="status-text">👤 Donor: ${d.donorName}</p>
                     <p class="status-text">🤝 Receiver: ${d.claimedBy}</p>
+                    <p class="status-text">📍 Pickup Address: ${d.foodAddress}</p>
                     <p class="status-text">Status: <strong style="color:#4ade80">✅ Delivered</strong></p>
                 </div>
             </div>
