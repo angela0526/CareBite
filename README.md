@@ -13,7 +13,7 @@
 - Member 2: Anjana R - MITS,Kochi
 
 ### Hosted Project Link
-https://angela0526.github.io/CareBite/Frontend/index.html
+https://care-bite.vercel.app/index.html
 
 ### Project Description
 CareBite is a web-based food donation platform that connects food donors (restaurants, households, and events) with NGOs and receivers who need food, and volunteers who pick up and deliver it. It helps reduce food waste and fight hunger by coordinating real-time food donations across communities.
