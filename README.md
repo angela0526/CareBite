@@ -85,6 +85,7 @@ List the key features of your project:
 
 - Feature 6: Food Image Upload — Donors can upload photos of their food so 
   receivers know exactly what they're claiming before they commit.
+
 ## Implementation
 
 ### For Software:
@@ -127,19 +128,6 @@ App will open at http://127.0.0.1:5500
 *Volunteer Dashboard — Volunteers can accept pickup tasks and mark deliveries as complete*
 
 
-#### Diagrams
-
-**System Architecture:**
-
-![Architecture Diagram](docs/architecture.png)
-*Explain your system architecture - components, data flow, tech stack interaction*
-
-**Application Workflow:**
-
-![Workflow](docs/workflow.png)
-*Add caption explaining your workflow*
-
----
 
 ## Additional Documentation
 
@@ -191,122 +179,43 @@ the Browser's localStorage API. No external API calls are made.
 - **Type:** Single user object
 
 
-
-#### Demo Output
-
-**Example 1: Basic Processing**
-
-**Input:**
-```
-This is a sample input file
-with multiple lines of text
-for demonstration purposes
-```
-
-**Command:**
-```bash
-python script.py sample.txt
-```
-
-**Output:**
-```
-Processing: sample.txt
-Lines processed: 3
-Characters counted: 86
-Status: Success
-Output saved to: output.txt
-```
-
-**Example 2: Advanced Usage**
-
-**Input:**
-```json
-{
-  "name": "test",
-  "value": 123
-}
-```
-
-**Command:**
-```bash
-python script.py -v --format json data.json
-```
-
-**Output:**
-```
-[VERBOSE] Loading configuration...
-[VERBOSE] Parsing JSON input...
-[VERBOSE] Processing data...
-{
-  "status": "success",
-  "processed": true,
-  "result": {
-    "name": "test",
-    "value": 123,
-    "timestamp": "2024-02-07T10:30:00"
-  }
-}
-[VERBOSE] Operation completed in 0.23s
-```
-
 ---
 
-## Project Demo
+## AI Tools Used
 
-### Video
-[Add your demo video link here - YouTube, Google Drive, etc.]
+**Tool Used:** Claude AI (claude.ai)
 
-*Explain what the video demonstrates - key features, user flow, technical highlights*
+**Purpose:** Used for guidance and assistance during development
+- Building and structuring the project from scratch
+- Debugging JavaScript functions and localStorage logic
+- Implementing GPS-based location sorting feature
+- Writing backend architecture with Node.js and MongoDB
 
-### Additional Demos
-[Add any extra demo materials/links - Live site, APK download, online demo, etc.]
-
----
-
-## AI Tools Used (Optional - For Transparency Bonus)
-
-If you used AI tools during development, document them here for transparency:
-
-**Tool Used:** [e.g., GitHub Copilot, v0.dev, Cursor, ChatGPT, Claude]
-
-**Purpose:** [What you used it for]
-- Example: "Generated boilerplate React components"
-- Example: "Debugging assistance for async functions"
-- Example: "Code review and optimization suggestions"
-
-**Key Prompts Used:**
-- "Create a REST API endpoint for user authentication"
-- "Debug this async function that's causing race conditions"
-- "Optimize this database query for better performance"
-
-**Percentage of AI-generated code:** [Approximately X%]
 
 **Human Contributions:**
-- Architecture design and planning
-- Custom business logic implementation
-- Integration and testing
-- UI/UX design decisions
-
-*Note: Proper documentation of AI usage demonstrates transparency and earns bonus points in evaluation!*
+- Project idea and concept design
+- UI/UX design decisions and color scheme
+- Custom CSS styling and animations
+- Testing and debugging the application
+- Feature planning and user flow design
+- Final integration and presentation
 
 ---
 
 ## Team Contributions
 
-- [Name 1]: [Specific contributions - e.g., Frontend development, API integration, etc.]
-- [Name 2]: [Specific contributions - e.g., Backend development, Database design, etc.]
-- [Name 3]: [Specific contributions - e.g., UI/UX design, Testing, Documentation, etc.]
+- Angela John: Auth pages, login pages, Volunteer dashboard, Testing and debugging,Location feature
+- Anjana R: Frontend development, Landing page, Donor dashboard, Receiver dashboard,
+  CSS styling 
 
 ---
 
 ## License
 
-This project is licensed under the [LICENSE_NAME] License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
-**Common License Options:**
-- MIT License (Permissive, widely used)
-- Apache 2.0 (Permissive with patent grant)
-- GPL v3 (Copyleft, requires derivative works to be open source)
+The MIT License means anyone can use, copy, modify and distribute 
+this project freely as long as they give credit to the original authors.
 
 ---
 
