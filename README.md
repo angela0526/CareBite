@@ -2,27 +2,46 @@
   <img src="./img.png" alt="Project Banner" width="100%">
 </p>
 
-# [Project Name] 🎯
+# CareBite 🍱
 
 ## Basic Details
 
-### Team Name: [Name]
+### Team Name: CodeSprout
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
+- Member 1: Angela Elsa John - MITS,Kochi
+- Member 2: Anjana R - MITS,Kochi
 
 ### Hosted Project Link
-[mention your project hosted link here]
+https://angela0526.github.io/CareBite/Frontend/index.html
 
 ### Project Description
-[2-3 lines about what your project does]
+CareBite is a web-based food donation platform that connects food donors (restaurants, households, and events) with NGOs and receivers who need food, and volunteers who pick up and deliver it. It helps reduce food waste and fight hunger by coordinating real-time food donations across communities.
 
 ### The Problem statement
-[What problem are you solving?]
+Tonnes of good food gets thrown away every day while people nearby go hungry. 
+The problem isn't shortage — it's connection. Donating food is slow, 
+unorganized, and by the time it's arranged, the food has already gone bad. 
+There had to be a better way.
 
 ### The Solution
-[How are you solving it?]
+CareBite is the bridge that should have always existed.
+
+The moment a donor posts surplus food, it goes live on our platform 
+instantly. Nearby NGOs and receivers can see it, claim it, and a volunteer 
+is already on their way to pick it up — all within minutes, not hours.
+
+No phone calls. No emails. No food wasted waiting.
+
+We built three powerful dashboards — one for donors to post food in seconds, 
+one for receivers to find and claim donations nearby, and one for volunteers 
+to accept pickups and track deliveries in real time. Every donation has a 
+live status — from the moment it's posted to the moment it reaches someone 
+who needs it.
+
+CareBite doesn't just move food. It moves people to act faster, give more, 
+and waste less. Because when technology meets compassion, nobody has to go 
+hungry tonight.
 
 ---
 
@@ -31,66 +50,83 @@
 ### Technologies/Components Used
 
 **For Software:**
-- Languages used: [e.g., JavaScript, Python, Java]
-- Frameworks used: [e.g., React, Django, Spring Boot]
-- Libraries used: [e.g., axios, pandas, JUnit]
-- Tools used: [e.g., VS Code, Git, Docker]
+- Languages used: HTML5, CSS3, JavaScript (ES6+)
+- APIs used: Browser Geolocation API, FileReader API
+- Storage: localStorage (Browser-based)
+- Fonts: Google Fonts (Poppins)
+- Tools used: VS Code, Git, GitHub, Live Server
 
-**For Hardware:**
-- Main components: [List main components]
-- Specifications: [Technical specifications]
-- Tools required: [List tools needed]
 
 ---
 
 ## Features
 
 List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
 
----
+- Feature 1: Three-Role System — CareBite supports three distinct user roles 
+  (Donor, Receiver/NGO and Volunteer) each with their own personalized 
+  dashboard and access controls.
 
+- Feature 2: Real-Time Food Donation Tracking — Every donation has a live 
+  status that updates in real time from Available → Claimed → Pickup Assigned 
+  → Delivered, so everyone knows exactly where the food is.
+
+- Feature 3: Location-Based Matching — Using the Browser Geolocation API, 
+  CareBite automatically detects the receiver's location and sorts available 
+  donations by distance, showing the closest food first.
+
+- Feature 4: Volunteer Delivery System — Volunteers can browse claimed 
+  donations, accept pickup tasks, and mark deliveries as complete — creating 
+  a full end-to-end food delivery chain.
+
+- Feature 5: Expiry Alert System — Donations expiring within 2 hours are 
+  automatically flagged with a warning so receivers and volunteers can 
+  prioritize urgent pickups.
+
+- Feature 6: Food Image Upload — Donors can upload photos of their food so 
+  receivers know exactly what they're claiming before they commit.
 ## Implementation
 
 ### For Software:
 
 #### Installation
 ```bash
-[Installation commands - e.g., npm install, pip install -r requirements.txt]
+No installation needed!
+Just clone the repository and open with Live Server
+git clone https://github.com/angela0526/CareBite.git
+cd CareBite
 ```
 
 #### Run
 ```bash
-[Run commands - e.g., npm start, python app.py]
+Open frontend/index.html using Live Server in VS Code
+Right click index.html → Open with Live Server
+App will open at http://127.0.0.1:5500
 ```
-
-### For Hardware:
-
-#### Components Required
-[List all components needed with specifications]
-
-#### Circuit Setup
-[Explain how to set up the circuit]
-
----
-
 ## Project Documentation
 
 ### For Software:
 
 #### Screenshots (Add at least 3)
 
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+"images/Homepage.jpg"
+*Landing Page — CareBite's home page with hero section, about section and contact form*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+"images/login.jpg"
+*Login Page — Role-based login for Donors, Receivers and Volunteers*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+"images/register.jpg"
+*Register Page — Role-based registration for Donors, Receivers and Volunteers*
+
+"images/donor.jpg"
+*Donor Dashboard — Donors can post food donations with name, type, quantity, expiry and image*
+
+"images/receiver.jpg"
+*Receiver Dashboard — Receivers can browse available donations sorted by distance and claim them*
+
+"images/volunteer.jpg"
+*Volunteer Dashboard — Volunteers can accept pickup tasks and mark deliveries as complete*
+
 
 #### Diagrams
 
